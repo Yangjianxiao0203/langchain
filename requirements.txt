@@ -8,3 +8,5 @@ pandas
 chardet
 aiohttp
 charset-normalizer==3.1.0
+
+google-search-results

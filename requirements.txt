@@ -1,0 +1,10 @@
+langchain
+python-dotenv
+openai
+
+torch
+numpy
+pandas
+chardet
+aiohttp
+charset-normalizer==3.1.0

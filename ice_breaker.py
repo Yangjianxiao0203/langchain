@@ -8,7 +8,7 @@ from langchain.chains import LLMChain
 from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
 from third_party.linkedin import scrape_linkedin_profile
 
-from output_parser import person_intel_parser,LinkedinProfile
+from output_parser import person_intel_parser, LinkedinProfile
 
 
 def build_chain():
@@ -23,12 +23,12 @@ def build_chain():
     return chain
 
 
-def ice_break(name,description="") -> Tuple[LinkedinProfile, str]:
+def ice_break(name, description="") -> Tuple[LinkedinProfile, str]:
     """
     流程： 1. 给一个名字通过agent找到linkedin的url 2. 爬取linkedin的信息， 3. 通过chain生成summary， 4. 通过parser解析结果
     :return:
     """
-    linkedin_profile_url = linkedin_lookup_agent(name=name,description=description)
+    linkedin_profile_url = linkedin_lookup_agent(name=name, description=description)
     summary_template = """
         give the information {information} about a persion from I want you to create: 
         1. a short summary, less than 100 words
@@ -40,9 +40,9 @@ def ice_break(name,description="") -> Tuple[LinkedinProfile, str]:
     prompt = PromptTemplate(
         input_variables=["information"],
         template=summary_template,
-        partial_variables = {
-            "format_instruction":person_intel_parser.get_format_instructions()
-        }
+        partial_variables={
+            "format_instruction": person_intel_parser.get_format_instructions()
+        },
     )
 
     llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
@@ -58,6 +58,9 @@ def ice_break(name,description="") -> Tuple[LinkedinProfile, str]:
 
 if __name__ == "__main__":
     load_dotenv()  # This loads the .env file into the environment
-    person_parser,pic_url = ice_break("Yifan Wu",description="He is a phd and currently is doing postdoctoral research in Havarad University")
+    person_parser, pic_url = ice_break(
+        "Yifan Wu",
+        description="He is a phd and currently is doing postdoctoral research in Havarad University",
+    )
     print(person_parser)
     print(pic_url)

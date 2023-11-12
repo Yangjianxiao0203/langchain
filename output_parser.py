@@ -5,7 +5,10 @@ from typing import List
 
 class LinkedinProfile(BaseModel):
     summary: str = Field(..., description="The summary of the person")  # ... 表示必须要有这个参数
-    pic: str = Field(...,description="The profile picture url of the person, often in profile_pic_url")
+    pic: str = Field(
+        ...,
+        description="The profile picture url of the person, often in profile_pic_url",
+    )
     facts: List[str] = Field(description="The facts of the person")
     topics_of_interest: List[str] = Field(
         description="The topics of interest of the person"
@@ -24,4 +27,6 @@ class LinkedinProfile(BaseModel):
         }
 
 
-person_intel_parser:PydanticOutputParser = PydanticOutputParser(pydantic_object=LinkedinProfile)
+person_intel_parser: PydanticOutputParser = PydanticOutputParser(
+    pydantic_object=LinkedinProfile
+)

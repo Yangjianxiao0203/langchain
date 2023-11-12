@@ -6,7 +6,7 @@ from langchain.agents import initialize_agent, Tool, AgentType
 from tools.tools import get_profile_url
 
 
-def lookup(name: str,description:str = "") -> str:
+def lookup(name: str, description: str = "") -> str:
     """
     agent 流程： 1. 外界的tool是google serach api，找url的
     大模型的reAct：
@@ -17,7 +17,9 @@ def lookup(name: str,description:str = "") -> str:
     I want you to get it me a link to their Linkedin profile page. Your answer should be only a url. 
     The urls should be in the format of https://www.linkedin.com/in/<profile-id>
     """
-    prompt = PromptTemplate(input_variables=["name_of_person","description_of_person"], template=template)
+    prompt = PromptTemplate(
+        input_variables=["name_of_person", "description_of_person"], template=template
+    )
 
     crawl_tool = Tool(
         name="linkedin_crawler",
@@ -30,8 +32,11 @@ def lookup(name: str,description:str = "") -> str:
         tools=tools, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True, llm=llm
     )
 
-    linkedin_url = agent.run(prompt.format(name_of_person=name,description_of_person=description))
+    linkedin_url = agent.run(
+        prompt.format(name_of_person=name, description_of_person=description)
+    )
     return linkedin_url
+
 
 if __name__ == "__main__":
     template = """
@@ -39,6 +44,11 @@ if __name__ == "__main__":
     I want you to get it me a link to their Linkedin profile page. Your answer should be only a url. 
     The urls should be in the format of https://www.linkedin.com/in/<profile-id>
     """
-    prompt = PromptTemplate(input_variables=["name_of_person", "description_of_person"], template=template)
-    prompt_str = prompt.format(name_of_person="Jianxiao Yang", description_of_person="He studies in Boston University and has intenship experience in Uber")
+    prompt = PromptTemplate(
+        input_variables=["name_of_person", "description_of_person"], template=template
+    )
+    prompt_str = prompt.format(
+        name_of_person="Jianxiao Yang",
+        description_of_person="He studies in Boston University and has intenship experience in Uber",
+    )
     print(prompt_str)
